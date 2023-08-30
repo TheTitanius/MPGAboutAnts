@@ -1,0 +1,43 @@
+﻿.hex-grid {
+    display: block;
+    column-count: auto;
+    font-size: 0;
+    --s: 70px;
+    --m: -2px;
+    margin-left: 15px;
+}
+
+.hex {
+    display: block;
+    box-shadow: 10px 10px 5px #000;
+    width: calc(var(--s)*1.1547);
+    height: var(--s);
+    background-image: url(../resources/ground.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    margin: var(--m);
+}
+
+img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+}
+
+.hex:hover {
+    border: 5px, 5px, #000;
+}
+
+.honest-column {
+    float: left;
+    margin-top: calc(var(--s)/2);
+    margin-left: calc(var(--m) - var(--s) * 0.2886);
+}
+
+.odd-column {
+    float: left;
+    margin-left: calc(var(--m) - var(--s) * 0.2886);
+}

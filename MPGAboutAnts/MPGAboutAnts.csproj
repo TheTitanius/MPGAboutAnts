@@ -6,4 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\resources\ant.png" />
+    <None Include="wwwroot\resources\assets.png" />
+    <None Include="wwwroot\resources\ground.png" />
+  </ItemGroup>
+
 </Project>
