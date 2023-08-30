@@ -2,14 +2,22 @@
     display: block;
     column-count: auto;
     font-size: 0;
-    --s: 70px;
+    --s: 45px;
     --m: -2px;
     margin-left: 15px;
 }
 
+.void-hex {
+    display: block;
+    width: calc(var(--s)*1.1547);
+    height: var(--s);
+    /*background-color: gray;*/
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    margin: var(--m);
+}
+
 .hex {
     display: block;
-    box-shadow: 10px 10px 5px #000;
     width: calc(var(--s)*1.1547);
     height: var(--s);
     background-image: url(../resources/ground.png);
