@@ -12,5 +12,9 @@ namespace MPGAboutAnts
 		}
 
 		public DbSet<HexType> HexTypes { get; set; }
+		public DbSet<Map> Maps { get; set; }
+		public DbSet<Hex> Hexes { get; set; }
+		public DbSet<Unit> Units { get; set; }
+		public DbSet<UnitType> UnitTypes { get; set; }
 	}
 }

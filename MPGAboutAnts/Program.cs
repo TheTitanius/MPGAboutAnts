@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using MPGAboutAnts.Models;
 using MPGAboutAnts.Repositories;
 
 namespace MPGAboutAnts
