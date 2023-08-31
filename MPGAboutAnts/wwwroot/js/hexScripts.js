@@ -1,4 +1,4 @@
-﻿function AddHex(column = 25, line = 18) {
+﻿async function AddHex(column = 25, line = 18) {
     map = document.getElementById("map");
 
     for (let i = 0; i < column; i++) {
@@ -21,7 +21,8 @@
             ) {
                 div.className = "void-hex";
             } else {
-                div.className = "hex";
+                div.classList.add('hex');
+                div.classList.add('ground');
             }
             div.id = `${i}, ${j}`;
             col.appendChild(div);
@@ -31,21 +32,33 @@
     }
 
     map.addEventListener("click", (e) => {
-        if (e.target && e.target.matches(".hex")) {
-            var antHex = document.getElementsByClassName("ant-hex");
-            Array.prototype.forEach.call(antHex, (ant) => {
-                while (ant.firstChild) {
-                    ant.removeChild(ant.firstChild);
-                }
-
-                ant.classList.remove("ant-hex");
-            });
-
+        if (e.target && (e.target.matches(".hex") || e.target.matches(".hex-child"))) {
             var hex = e.target;
-            var ant = document.createElement("img");
-            ant.src = "../resources/ant.png";
-            hex.classList.add("ant-hex");
-            hex.appendChild(ant);
+            if (hex.matches(".hex-child")) {
+                hex = hex.parentElement;
+            }
+            if (gameMode) {
+                var antHex = document.getElementsByClassName("ant-hex");
+                Array.prototype.forEach.call(antHex, (ant) => {
+                    while (ant.firstChild) {
+                        ant.removeChild(ant.firstChild);
+                    }
+
+                    ant.classList.remove("ant-hex");
+                });
+
+                var ant = document.createElement("img");
+                ant.src = "../resources/ant.png";
+                ant.classList.add("hex-child");
+                hex.classList.add("ant-hex");
+                hex.appendChild(ant);
+            } else {
+                for (let i = 0; i < hex.classList.length; i++) {
+                    if (hex.classList[i] == "hex") continue;
+                    hex.classList.remove(hex.classList[i]);
+                }
+                hex.classList.add(hexType);
+            }
         }
     });
 }

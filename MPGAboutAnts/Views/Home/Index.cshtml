@@ -1,9 +1,26 @@
 ﻿@{
-    ViewData["Title"] = "Карта";
+	ViewData["Title"] = "Карта";
 }
 
 <link rel="stylesheet" href="~/css/HexStyles.css" asp-append-version="true" />
-<div class="hex-grid" id="map">
-
+<div>
+	<div class="hex-grid" id="map"></div>
+	<div style="float:left; display:inline-block">
+		<div class="check">
+			<div class="form-check form-switch">
+				<input class="form-check-input" type="checkbox" id="flexSwitchCheck">
+				<label id="checkLabel" class="form-check-label" for="flexSwitchCheck">Режим игры</label>
+			</div>
+		</div>
+		<div style="display: block; overflow:clip;" id="creationSettings" hidden>
+			<div class="input-group mb-3" id="hexSelect">
+				<span class="input-group-text">Тип местности</span>
+				<select class="form-select" required id="hexType">
+					<option value="change" selected>--Выберите тип--</option>
+				</select>
+			</div>
+		</div>
+	</div>
 </div>
 <script src="~/js/hexScripts.js"></script>
+<script src="~/js/interfaceScript.js"></script>

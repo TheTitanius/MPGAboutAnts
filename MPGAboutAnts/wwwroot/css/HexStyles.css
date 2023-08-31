@@ -1,10 +1,19 @@
 ﻿.hex-grid {
-    display: block;
     column-count: auto;
     font-size: 0;
-    --s: 45px;
+    --s: 44px;
     --m: -2px;
-    margin-left: 15px;
+    margin: 5px;
+    float: left;
+    height: auto;
+    width: auto;
+    /*    height: calc(var(--s)*18);
+    width: calc(var(--s)*25);*/
+    border: groove;
+}
+
+.check {
+    display: block;
 }
 
 .void-hex {
@@ -20,12 +29,19 @@
     display: block;
     width: calc(var(--s)*1.1547);
     height: var(--s);
-    background-image: url(../resources/ground.png);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     margin: var(--m);
+}
+
+.ground {
+    background-image: url(../resources/ground.png);
+}
+
+.water{
+    background-image: url(../resources/water.png)
 }
 
 img {
