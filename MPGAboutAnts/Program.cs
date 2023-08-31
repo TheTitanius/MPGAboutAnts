@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using MPGAboutAnts.Models;
+using MPGAboutAnts.Repositories;
+
 namespace MPGAboutAnts
 {
 	public class Program
@@ -8,7 +12,17 @@ namespace MPGAboutAnts
 
 			builder.Services.AddControllersWithViews();
 
+			string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+			builder.Services.AddDbContext<Context>(options => options.UseNpgsql(connection));
+
+
 			var app = builder.Build();
+
+			//using (Context db = app.Services.CreateScope().ServiceProvider.GetServices<Context>().First())
+			//{
+			//	db.HexTypes.Add(new HexType() { Name = "Земля" });
+			//	db.HexTypes.Add(new HexType() { Name = "Вода" });
+			//}
 
 			if (!app.Environment.IsDevelopment())
 			{
@@ -18,6 +32,8 @@ namespace MPGAboutAnts
 
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
+
+			HexTypeRepository hexTypeRepository = new(app, "hexType");
 
 			app.UseRouting();
 
