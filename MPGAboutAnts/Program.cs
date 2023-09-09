@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MPGAboutAnts.Models;
 using MPGAboutAnts.Repositories;
 
 namespace MPGAboutAnts
@@ -17,11 +18,10 @@ namespace MPGAboutAnts
 
 			var app = builder.Build();
 
-			//using (Context db = app.Services.CreateScope().ServiceProvider.GetServices<Context>().First())
-			//{
-			//	db.HexTypes.Add(new HexType() { Name = "Земля" });
-			//	db.HexTypes.Add(new HexType() { Name = "Вода" });
-			//}
+			//Context db = app.Services.CreateScope().ServiceProvider.GetServices<Context>().First();
+			//db.HexTypes.Add(new HexType() { Name = "Земля" });
+			//db.HexTypes.Add(new HexType() { Name = "Вода" });
+			//db.SaveChanges();
 
 			if (!app.Environment.IsDevelopment())
 			{
@@ -33,6 +33,8 @@ namespace MPGAboutAnts
 			app.UseStaticFiles();
 
 			HexTypeRepository hexTypeRepository = new(app, "hexType");
+			MapRepository mapRepository = new(app, "map");
+			HexRepository hexRepository = new(app, "hex");
 
 			app.UseRouting();
 
