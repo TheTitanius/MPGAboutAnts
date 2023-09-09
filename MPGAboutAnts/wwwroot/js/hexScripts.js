@@ -63,4 +63,40 @@
     });
 }
 
+function LoadMap(hexes, column = 25, line = 18) {
+    map = document.getElementById("map");
+    map.innerHTML = '';
+
+    for (let i = 0; i < column; i++) {
+        const col = document.createElement('div');
+        if (i % 2 != 0) {
+            col.classList.add('honest-column');
+        } else {
+            col.classList.add('odd-column');
+        }
+        for (let j = 0; j < line; j++) {
+            var hex = hexes.find(value => value.x == i && value.y == j)
+            var div = document.createElement("div");
+            if (hex.hexType == null) {
+                div.className = "void-hex";
+            } else {
+                div.classList.add('hex');
+                switch (hex.hexType.name) {
+                    case 'Земля':
+                        div.classList.add('ground');
+                        break;
+                    case 'Вода':
+                        div.classList.add('water');
+                        hexType = "water";
+                        break;
+                }
+            }
+            div.id = `${i}, ${j}`;
+            col.appendChild(div);
+        }
+
+        map.appendChild(col);
+    }
+}
+
 AddHex()

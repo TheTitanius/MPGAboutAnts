@@ -14,10 +14,24 @@
 		</div>
 		<div style="display: block; overflow:clip;" id="creationSettings" hidden>
 			<div class="input-group mb-3" id="hexSelect">
-				<span class="input-group-text">Тип местности</span>
+				<span class="input-group-text">Тип местности:</span>
 				<select class="form-select" required id="hexType">
 					<option value="change" selected>--Выберите тип--</option>
 				</select>
+			</div>
+			<div>
+				<div class="input-group mb-3">
+					<span class="input-group-text">Название карты:</span>
+					<input type="text" class="form-control" required id="mapName" />
+				</div>
+				<button id="saveBtn" type="button" class="btn btn-primary">Сохранить карту</button>
+			</div>
+			<div class="input-group mb-3" id="mapSelect" style="margin-top: 5%">
+				<span class="input-group-text">Карта:</span>
+				<select class="form-select" required id="mapNames">
+					<option value="change" selected>--Выберите карту--</option>
+				</select>
+				<button id="loadBtn" type="button" class="btn btn-primary">Загрузить карту</button>
 			</div>
 		</div>
 	</div>
