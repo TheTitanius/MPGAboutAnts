@@ -16,5 +16,6 @@ namespace MPGAboutAnts
 		public DbSet<Hex> Hexes { get; set; }
 		public DbSet<Unit> Units { get; set; }
 		public DbSet<UnitType> UnitTypes { get; set; }
+		public DbSet<Player> Players { get; set; }
 	}
 }
