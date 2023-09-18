@@ -53,11 +53,13 @@
                 hex.classList.add("ant-hex");
                 hex.appendChild(ant);
             } else {
-                for (let i = 0; i < hex.classList.length; i++) {
-                    if (hex.classList[i] == "hex") continue;
-                    hex.classList.remove(hex.classList[i]);
+                if (isSetHex) {
+                    for (let i = 0; i < hex.classList.length; i++) {
+                        if (hex.classList[i] == "hex") continue;
+                        hex.classList.remove(hex.classList[i]);
+                    }
+                    hex.classList.add(hexType);
                 }
-                hex.classList.add(hexType);
             }
         }
     });

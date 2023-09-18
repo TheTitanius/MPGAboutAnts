@@ -1,4 +1,5 @@
 ﻿var gameMode = true;
+var isSetHex = true;
 var hexType = "ground";
 
 async function createModel(modelsName, newModel) {
