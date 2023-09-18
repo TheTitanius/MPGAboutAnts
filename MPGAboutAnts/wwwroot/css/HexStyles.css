@@ -1,9 +1,10 @@
 ﻿.hex-grid {
     column-count: auto;
     font-size: 0;
-    --s: 44px;
-    --m: -2px;
-    margin: 5px;
+    --s: 40px;
+    --m: -1.5px;
+    margin: 3px;
+    margin-left: -90px;
     float: left;
     height: auto;
     width: auto;
@@ -18,7 +19,7 @@
 
 .void-hex {
     display: block;
-    width: calc(var(--s)*1.1547);
+    width: calc(var(--s)*1.1542);
     height: var(--s);
     /*background-color: gray;*/
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
@@ -27,7 +28,7 @@
 
 .hex {
     display: block;
-    width: calc(var(--s)*1.1547);
+    width: calc(var(--s)*1.1542);
     height: var(--s);
     background-repeat: no-repeat;
     background-size: contain;
@@ -58,7 +59,7 @@ img {
 .honest-column {
     float: left;
     margin-top: calc(var(--s)/2);
-    margin-left: calc(var(--m) - var(--s) * 0.2886);
+    margin-left: calc(var(--m) - var(--s) * 0.2686);
 }
 
 .odd-column {
