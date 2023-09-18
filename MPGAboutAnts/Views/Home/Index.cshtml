@@ -13,25 +13,85 @@
 			</div>
 		</div>
 		<div style="display: block; overflow:clip;" id="creationSettings" hidden>
-			<div class="input-group mb-3" id="hexSelect">
-				<span class="input-group-text">Тип местности:</span>
-				<select class="form-select" required id="hexType">
-					<option value="change" selected>--Выберите тип--</option>
-				</select>
+			<div>
+				<div class="form-check">
+					<input class="form-check-input" id="rb_1" type="radio" name="flexRadio" checked value="selectHexType" />
+					<label class="form-check-label" for="rb_1">Тип местности</label>
+				</div>
+				<fieldset id="selectHexType">
+					<div class="input-group mb-3" id="hexSelect">
+						<span class="input-group-text">Тип местности:</span>
+						<select class="form-select" size="3" required id="hexType">
+							<option value="change" selected>--Выберите тип--</option>
+						</select>
+					</div>
+				</fieldset>
 			</div>
 			<div>
-				<div class="input-group mb-3">
-					<span class="input-group-text">Название карты:</span>
-					<input type="text" class="form-control" required id="mapName" />
+				<div class="form-check">
+					<input class="form-check-input" id="rb_2" type="radio" name="flexRadio" value="mapSave" />
+					<label class="form-check-label" for="rb_2">Сохранение карты</label>
 				</div>
-				<button id="saveBtn" type="button" class="btn btn-primary">Сохранить карту</button>
+				<fieldset id="mapSave" disabled>
+					<div class="input-group mb-3">
+						<span class="input-group-text">Название карты:</span>
+						<input type="text" class="form-control" required id="mapName" />
+						<button id="saveBtn" type="button" class="btn btn-primary">Сохранить карту</button>
+					</div>
+				</fieldset>
 			</div>
-			<div class="input-group mb-3" id="mapSelect" style="margin-top: 5%">
-				<span class="input-group-text">Карта:</span>
-				<select class="form-select" required id="mapNames">
-					<option value="change" selected>--Выберите карту--</option>
-				</select>
-				<button id="loadBtn" type="button" class="btn btn-primary">Загрузить карту</button>
+			<div>
+				<div class="form-check">
+					<input class="form-check-input" id="rb_3" type="radio" name="flexRadio" value="mapLoad" />
+					<label class="form-check-label" for="rb_3">Загрузка карты</label>
+				</div>
+				<fieldset id="mapLoad" disabled>
+					<div class="input-group mb-3" id="mapSelect">
+						<span class="input-group-text">Карта:</span>
+						<select class="form-select" required id="mapNames">
+							<option value="change" selected>--Выберите карту--</option>
+						</select>
+						<button id="loadBtn" type="button" class="btn btn-primary">Загрузить карту</button>
+					</div>
+				</fieldset>
+			</div>
+			<div>
+				<div class="form-check">
+					<input class="form-check-input" id="rb_4" type="radio" name="flexRadio" value="playerSave" />
+					<label class="form-check-label" for="rb_4">Создание игрока</label>
+				</div>
+				<fieldset id="playerSave" disabled>
+					<div class="input-group mb-3">
+						<span class="input-group-text">Имя игрока:</span>
+						<input type="text" class="form-control" required id="playerName" />
+					</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text">Цвет:</span>
+						<input type="color" class="form-control form-control-color" required id="color" />
+					</div>
+					<button id="savePlayerBtn" type="button" class="btn btn-primary mb-3">Сохранить игрока</button>
+				</fieldset>
+			</div>
+			<div>
+				<div class="form-check">
+					<input class="form-check-input" id="rb_5" type="radio" name="flexRadio" value="antAdd"/>
+					<label class="form-check-label" for="rb_5">Добавление муравья</label>
+				</div>
+				<fieldset id="antAdd" disabled>
+					<div class="input-group mb-3">
+						<span class="input-group-text">Тип муравья:</span>
+						<select class="form-select" required id="antType">
+							<option value="change" selected>--Выберите тип муравья--</option>
+						</select>
+					</div>
+					<div class="input-group mb-3">
+						<span class="input-group-text">Игрок:</span>
+						<select class="form-select" required id="playerNames">
+							<option value="change" selected>--Выберите игрока--</option>
+						</select>
+						<span class="input-group-text" id="playerColor">Цвет игрока</span>
+					</div>
+				</fieldset>
 			</div>
 		</div>
 	</div>

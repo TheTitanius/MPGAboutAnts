@@ -12,6 +12,35 @@
     }
 });
 
+document.getElementsByName("flexRadio").forEach(rBtn => {
+    rBtn.addEventListener("change", () => {
+        document.getElementById("selectHexType").disabled = true;
+        document.getElementById("mapSave").disabled = true;
+        document.getElementById("mapLoad").disabled = true;
+        document.getElementById("playerSave").disabled = true;
+        document.getElementById("antAdd").disabled = true;
+        isSetHex = false;
+        switch (rBtn.value) {
+            case 'selectHexType':
+                document.getElementById("selectHexType").disabled = false;
+                isSetHex = true;
+                break;
+            case 'mapSave':
+                document.getElementById("mapSave").disabled = false;
+                break;
+            case 'mapLoad':
+                document.getElementById("mapLoad").disabled = false;
+                break;
+            case 'playerSave':
+                document.getElementById("playerSave").disabled = false;
+                break;
+            case 'antAdd':
+                document.getElementById("antAdd").disabled = false;
+                break;
+        }
+    });
+});
+
 async function GetHexTypes() {
     const response = await fetch(`/api/hexType`, {
         method: "GET",
@@ -34,6 +63,46 @@ async function GetMaps() {
         let select = document.getElementById("mapNames");
         maps.forEach(map => select.append(new Option(Object.values(map)[1], Object.values(map)[0])));
     }
+}
+
+async function GetPlayers() {
+    const response = await fetch('/api/player', {
+        method: "GET",
+        headers: { "Accept": "application/json" }
+    });
+    if (response.ok === true) {
+        const players = await response.json();
+        let select = document.getElementById("playerNames");
+        players.forEach(player => {
+            var option = new Option(Object.values(player)[1], Object.values(player)[0] + "," + player.color);
+            option.style.backgroundColor = player.color;
+            option.style.color = invertColor(player.color);
+            select.append(option)
+        });
+    }
+}
+
+document.getElementById("playerNames").addEventListener("change", async () => {
+    let span = document.getElementById("playerColor");
+    if (document.getElementById("playerNames").value == "change") {
+        span.style.backgroundColor = "#e9ecef";
+        span.style.color = "#212529";
+        return;
+    }
+    var color = document.getElementById("playerNames").value.split(',')[1];
+    span.style.backgroundColor = color;
+    span.style.color = invertColor(color);
+});
+
+function invertColor(hexTripletColor) {
+    var color = hexTripletColor;
+    color = color.substring(1); // remove #
+    color = parseInt(color, 16); // convert to integer
+    color = 0xFFFFFF ^ color; // invert three bytes
+    color = color.toString(16); // convert to hex
+    color = ("000000" + color).slice(-6); // pad with leading zeros
+    color = "#" + color; // prepend #
+    return color;
 }
 
 document.getElementById("hexType").addEventListener("change", (e) => {
@@ -103,6 +172,7 @@ async function GetType(hex) {
     return hexType;
 }
 
+
 document.getElementById("loadBtn").addEventListener("click", async () => {
     let mapId = document.getElementById("mapNames").value;
     let hexes;
@@ -120,5 +190,18 @@ document.getElementById("loadBtn").addEventListener("click", async () => {
     alert("Карта загружена");
 });
 
+document.getElementById("savePlayerBtn").addEventListener("click", async () => {
+    let playerName = document.getElementById("playerName").value;
+    let color = document.getElementById("color").value;
+
+    await createModel("player", JSON.stringify({
+        name: playerName,
+        color: color,
+    }));
+
+    alert("Игрок " + playerName + " загружен");
+});
+
 GetHexTypes();
 GetMaps();
+GetPlayers();

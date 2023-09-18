@@ -35,6 +35,7 @@ namespace MPGAboutAnts
 			HexTypeRepository hexTypeRepository = new(app, "hexType");
 			MapRepository mapRepository = new(app, "map");
 			HexRepository hexRepository = new(app, "hex");
+			PlayerRepository playerRepository = new(app, "player");
 
 			app.UseRouting();
 
