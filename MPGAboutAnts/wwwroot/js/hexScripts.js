@@ -38,20 +38,20 @@
                 hex = hex.parentElement;
             }
             if (gameMode) {
-                var antHex = document.getElementsByClassName("ant-hex");
-                Array.prototype.forEach.call(antHex, (ant) => {
-                    while (ant.firstChild) {
-                        ant.removeChild(ant.firstChild);
-                    }
+                //var antHex = document.getElementsByClassName("ant-hex");
+                //Array.prototype.forEach.call(antHex, (ant) => {
+                //    while (ant.firstChild) {
+                //        ant.removeChild(ant.firstChild);
+                //    }
 
-                    ant.classList.remove("ant-hex");
-                });
+                //    ant.classList.remove("ant-hex");
+                //});
 
-                var ant = document.createElement("img");
-                ant.src = "../resources/ant.png";
-                ant.classList.add("hex-child");
-                hex.classList.add("ant-hex");
-                hex.appendChild(ant);
+                //var ant = document.createElement("img");
+                //ant.src = "../resources/ant.png";
+                //ant.classList.add("hex-child");
+                //hex.classList.add("ant-hex");
+                //hex.appendChild(ant);
             } else {
                 if (isSetHex) {
                     for (let i = 0; i < hex.classList.length; i++) {
@@ -60,14 +60,35 @@
                     }
                     hex.classList.add(hexType);
                 }
+
+                if (isSetAnt) {
+                    if (hex.matches(".ant-hex")) return;
+                    var ant = document.createElement("img");
+                    ant.src = `../resources/${antType}.png`;
+                    ant.classList.add("hex-child");
+                    ant.id = antId;
+                    hex.classList.add("ant-hex");
+                    hex.appendChild(ant);
+
+                    var box = document.createElement("div");
+                    box.classList.add("box");
+                    box.style.backgroundColor = playerColor;
+                    hex.appendChild(box);
+
+                    var ant = new Ant(antId, antType, playerId, playerColor);
+                    ant.setXY(hex.id.split(', ')[0], hex.id.split(', ')[1]);
+                    ants.push(ant);
+                    antId++;
+                }
             }
         }
     });
 }
 
-function LoadMap(hexes, column = 25, line = 18) {
+async function LoadMap(hexes, column = 25, line = 18) {
     map = document.getElementById("map");
     map.innerHTML = '';
+    antId = 0;
 
     for (let i = 0; i < column; i++) {
         const col = document.createElement('div');
@@ -94,6 +115,37 @@ function LoadMap(hexes, column = 25, line = 18) {
                 }
             }
             div.id = `${i}, ${j}`;
+
+            if (hex.unit != null) {
+                var ant = document.createElement("img");
+                var antT;
+                switch (hex.unit.type.type) {
+                    case 'Обычный':
+                        ant.src = `../resources/ant.png`;
+                        antT = "ant";
+                        break;
+                    case 'Воин':
+                        ant.src = `../resources/warrior.png`;
+                        antT = "warrior";
+                        break;
+                }
+
+                ant.classList.add("hex-child");
+                ant.id = antId;
+                div.classList.add("ant-hex");
+                div.appendChild(ant);
+
+                var box = document.createElement("div");
+                box.classList.add("box");
+                box.style.backgroundColor = hex.unit.player.color;
+                div.appendChild(box);
+
+                var ant = new Ant(antId, antT, hex.unit.player.id, hex.unit.player.color);
+                ant.setXY(div.id.split(', ')[0], div.id.split(', ')[1]);
+                ants.push(ant);
+                antId++;
+            }
+
             col.appendChild(div);
         }
 
