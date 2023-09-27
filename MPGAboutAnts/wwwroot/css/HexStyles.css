@@ -66,3 +66,10 @@ img {
     float: left;
     margin-left: calc(var(--m) - var(--s) * 0.2886);
 }
+
+.box {
+    height: 10px;
+    width: 10px;
+    margin-top: -35px;
+    margin-left: 10px;
+}
