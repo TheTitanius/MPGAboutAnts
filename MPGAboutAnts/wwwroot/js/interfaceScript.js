@@ -4,6 +4,7 @@
     if (document.getElementById("flexSwitchCheck").checked) {
         checkLabel.innerHTML = "Режим создания";
         gameMode = false;
+        isSetAnt = false;
         document.getElementById("creationSettings").hidden = false;
     } else {
         checkLabel.innerHTML = "Режим игры";
@@ -20,6 +21,7 @@ document.getElementsByName("flexRadio").forEach(rBtn => {
         document.getElementById("playerSave").disabled = true;
         document.getElementById("antAdd").disabled = true;
         isSetHex = false;
+        isSetAnt = false;
         switch (rBtn.value) {
             case 'selectHexType':
                 document.getElementById("selectHexType").disabled = false;
@@ -36,6 +38,7 @@ document.getElementsByName("flexRadio").forEach(rBtn => {
                 break;
             case 'antAdd':
                 document.getElementById("antAdd").disabled = false;
+                isSetAnt = true;
                 break;
         }
     });
@@ -73,12 +76,48 @@ async function GetPlayers() {
     if (response.ok === true) {
         const players = await response.json();
         let select = document.getElementById("playerNames");
+
+        select.innerHTML = '<option value="change" selected>--Выберите игрока--</option>';
+        
         players.forEach(player => {
             var option = new Option(Object.values(player)[1], Object.values(player)[0] + "," + player.color);
             option.style.backgroundColor = player.color;
             option.style.color = invertColor(player.color);
             select.append(option)
         });
+    }
+}
+
+async function GetAntTypes() {
+    const response = await fetch('/api/unitType', {
+        method: "GET",
+        headers: { "Accept": "application/json" }
+    });
+    if (response.ok === true) {
+        const antTypes = await response.json();
+        let select = document.getElementById("antType");
+        antTypes.forEach(antType => select.append(new Option(Object.values(antType)[1], `${Object.values(antType)[0]},${Object.values(antType)[1]}`)));
+    }
+}
+
+async function GetAntTypeById(type) {
+    var id;
+    switch (type) {
+        case "ant":
+            id = 1;
+            break;
+        case "warrior":
+            id = 2;
+            break;
+    }
+
+    const response = await fetch(`/api/unitType/${id}`, {
+        method: "GET",
+        headers: { "Accept": "application/json" }
+    });
+    if (response.ok === true) {
+        const antType = await response.json();
+        return antType;
     }
 }
 
@@ -90,6 +129,8 @@ document.getElementById("playerNames").addEventListener("change", async () => {
         return;
     }
     var color = document.getElementById("playerNames").value.split(',')[1];
+    playerColor = color;
+    playerId = document.getElementById("playerNames").value.split(',')[0];
     span.style.backgroundColor = color;
     span.style.color = invertColor(color);
 });
@@ -121,7 +162,32 @@ document.getElementById("hexType").addEventListener("change", (e) => {
     }
 });
 
+document.getElementById("antType").addEventListener("change", (e) => {
+    if (e.target) {
+        switch (e.target.value.split(',')[1]) {
+            case 'Обычный':
+                antType = "ant";
+                break;
+            case 'Воин':
+                antType = "warrior";
+                break;
+            default:
+                antType = "warrior";
+                break;
+        }
+    }
+});
+
 document.getElementById("saveBtn").addEventListener("click", async () => {
+    var players;
+    const response = await fetch(`/api/player`, {
+        method: "GET",
+        headers: { "Accept": "application/json" }
+    });
+    if (response.ok === true) {
+        players = await response.json();
+    }
+
     var map = await createModel("map", JSON.stringify({
         name: document.getElementById("mapName").value
     }));
@@ -130,13 +196,28 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
             var hex = document.getElementById(`${i}, ${j}`);
             var hexType = await GetType(hex);
 
-            await createModel("hex", JSON.stringify({
+            var createdHex = await createModel("hex", JSON.stringify({
                 x: i,
                 y: j,
                 hexType: hexType,
-                map: map,
-                unit: null
+                map: map
             }));
+
+            if (hex.classList.contains("ant-hex")) {
+                var ant = await ants.find((element) => element.id == hex.firstChild.id);
+
+                var player = await players.find((element) => element.id == ant.playerId);
+
+                var antType = await GetAntTypeById(ant.type);
+
+                await createModel("unit", JSON.stringify({
+                    type: antType,
+                    player: player,
+                    hex: createdHex,
+                    hp: ant.hp,
+                    damage: ant.damage,
+                }));
+            }
         }
     }
 
@@ -185,7 +266,7 @@ document.getElementById("loadBtn").addEventListener("click", async () => {
         hexes = await response.json();
     }
 
-    LoadMap(hexes);
+    await LoadMap(hexes);
 
     alert("Карта загружена");
 });
@@ -199,9 +280,11 @@ document.getElementById("savePlayerBtn").addEventListener("click", async () => {
         color: color,
     }));
 
+    await GetPlayers();
     alert("Игрок " + playerName + " загружен");
 });
 
 GetHexTypes();
 GetMaps();
 GetPlayers();
+GetAntTypes();
