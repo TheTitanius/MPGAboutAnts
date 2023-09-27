@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MPGAboutAnts.Models;
 using MPGAboutAnts.Repositories;
+using System.Text.Json.Serialization;
 
 namespace MPGAboutAnts
 {
@@ -10,7 +11,10 @@ namespace MPGAboutAnts
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			builder.Services.AddControllersWithViews();
+			builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+			{
+				options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+			});
 
 			string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 			builder.Services.AddDbContext<Context>(options => options.UseNpgsql(connection));
@@ -21,6 +25,9 @@ namespace MPGAboutAnts
 			//Context db = app.Services.CreateScope().ServiceProvider.GetServices<Context>().First();
 			//db.HexTypes.Add(new HexType() { Name = "Земля" });
 			//db.HexTypes.Add(new HexType() { Name = "Вода" });
+
+			//db.UnitTypes.Add(new UnitType() { Type = "Обычный" });
+			//db.UnitTypes.Add(new UnitType() { Type = "Воин" });
 			//db.SaveChanges();
 
 			if (!app.Environment.IsDevelopment())
@@ -36,6 +43,8 @@ namespace MPGAboutAnts
 			MapRepository mapRepository = new(app, "map");
 			HexRepository hexRepository = new(app, "hex");
 			PlayerRepository playerRepository = new(app, "player");
+			UnitTypeRepository unitType = new(app, "unitType");
+			UnitRepository unitRepository = new(app, "unit");
 
 			app.UseRouting();
 
